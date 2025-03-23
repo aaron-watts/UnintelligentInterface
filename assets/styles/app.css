@@ -1,0 +1,214 @@
+@font-face {
+    font-family: 'NotoSans';
+    src: url('/assets/fonts/NotoSans-VariableFont_wdth\,wght.ttf') format('truetype');
+    font-weight: normal;
+}
+
+:root {
+    --sans-font: Notosans;
+    --standard-border-radius: 5px;
+
+    /* Default (light) theme */
+    --bg: #fff;
+    --accent-bg: #f5f7ff;
+    --text: #212121;
+    --text-light: #585858;
+    --border: #898EA4;
+    --accent: #0d47a1;
+    --accent-hover: #1266e2;
+    --accent-text: var(--bg);
+    --code: #d81b60;
+    --preformatted: #444;
+    --marked: #ffdd33;
+    --disabled: #efefef;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --bg: #212121;
+        --accent-bg: #2b2b2b;
+        --text: #dcdcdc;
+        --text-light: #ababab;
+        --accent: #ffb300;
+        --accent-hover: #ffe099;
+        --accent-text: var(--bg);
+        --code: #f06292;
+        --preformatted: #ccc;
+        --disabled: #111;
+    }
+}
+
+/* Reset box-sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Reset default appearance */
+textarea,
+select,
+input,
+progress {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+html {
+    /* Set the font globally */
+    font-family: var(--sans-font);
+    scroll-behavior: smooth;
+}
+
+/* Make the body a nice central block */
+body {
+    color: var(--text);
+    background-color: var(--bg);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 1fr min(45rem, 90%) 1fr;
+    margin: 0;
+}
+
+body>* {
+    grid-column: 2;
+}
+
+/* Add a little padding to ensure spacing is correct between content and header nav */
+main {
+    padding-top: 1.5rem;
+}
+
+/* Format links & buttons */
+
+button,
+input[type="button"] {
+    border: 1px solid var(--accent);
+    background-color: var(--accent);
+    color: var(--accent-text);
+    padding: 0.5rem 0.9rem;
+    text-decoration: none;
+    line-height: normal;
+}
+
+textarea:disabled,
+button[disabled] {
+    cursor: not-allowed;
+    background-color: var(--disabled);
+    border-color: var(--disabled);
+    color: var(--text-light);
+}
+
+button:enabled:hover,
+.button:not([aria-disabled="true"]):hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+    cursor: pointer;
+}
+
+button:focus-visible:where(:enabled) {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+textarea,
+button {
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: var(--standard-border-radius);
+    box-shadow: none;
+    max-width: 100%;
+    display: inline-block;
+}
+
+textarea {
+    color: var(--text);
+    background-color: var(--bg);
+}
+
+textarea:not([cols]) {
+    width: 100%;
+}
+
+/* Custom CSS starts here */
+
+.composer {
+    position: fixed;
+    width: min(48rem, 92%);
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#user-prompt {
+    position: relative;
+    display: inline-flex;
+    width: 95%;
+    align-items: flex-end;
+    border: 1px solid #ccc;
+    background: grey;
+    border-radius: 4px;
+    overflow: hidden;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-right: 60px;
+}
+
+#user-input {
+    resize: none;
+    max-height: 132px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    background: none;
+    border: none;
+}
+
+#action-button {
+    position: absolute;
+    margin-bottom: 6px;
+    right: 6px;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.user-msg {
+    background-color: lightcyan;
+    width: 60%;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+@media only screen and (max-width: 720px) {
+    .user-msg {
+        width: 75%;
+    }
+}
+
+.ui-feedback {
+    background-color: lightgreen;
+}
+
+.user-msg,
+.ui-feedback {
+    margin-block: 2rem;
+}
+
+main > div:last-of-type {
+    margin-bottom: 20rem;
+}
+
+.suggestion {
+    display: block;
+    margin-left: auto;
+    margin-right: 4%;
+    margin-block: 1rem;
+}
