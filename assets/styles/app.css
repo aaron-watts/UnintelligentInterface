@@ -150,8 +150,8 @@ textarea:not([cols]) {
     display: inline-flex;
     width: 95%;
     align-items: flex-end;
-    border: 1px solid #ccc;
-    background: grey;
+    border: 1px solid var(--border);
+    background: var(--accent-bg);
     border-radius: 4px;
     overflow: hidden;
     left: 50%;
@@ -181,10 +181,11 @@ textarea:not([cols]) {
 }
 
 .user-msg {
-    background-color: lightcyan;
+    background-color: var(--accent-bg);
     width: 60%;
     margin-left: auto;
     margin-right: 0;
+
 }
 
 @media only screen and (max-width: 720px) {
@@ -193,13 +194,12 @@ textarea:not([cols]) {
     }
 }
 
-.ui-feedback {
-    background-color: lightgreen;
-}
+.ui-feedback {}
 
 .user-msg,
 .ui-feedback {
     margin-block: 2rem;
+    padding: .6rem 1rem;
 }
 
 main > div:last-of-type {
