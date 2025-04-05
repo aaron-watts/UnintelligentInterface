@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'NotoSans';
-    src: url('/assets/fonts/NotoSans-VariableFont_wdth\,wght.woff2') format('truetype');
+    src: url('/assets/fonts/NotoSans-VariableFont_wdth\,wght.woff2') format('woff2');
     font-weight: normal;
 }
 
@@ -143,6 +143,11 @@ textarea:not([cols]) {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.composer:has(#user-input:focus) {
+    background: red;
+    bottom: 60px;
 }
 
 #user-prompt {
