@@ -1,4 +1,7 @@
-let appData = {};
+let appData = {
+    phase: 0,
+    responses: responses
+};
 
 const getData = async () => {
     const res = await fetch('/.netlify/functions/api');
@@ -19,16 +22,41 @@ const setData = async() => {
 
 setData();
 
+const responseHandler = () => {
+    const msgElem = document.getElementById('message-board');
+    const feedback = document.createElement('div');
+    feedback.classList.add('ui-feedback');
+    feedback.innerText = appData.responses[appData.phase].msg;
+    msgElem.appendChild(feedback);
+};
+
+const userInputHandler = textarea => {
+    const board = document.getElementById('message-board');
+    const msgElem = document.createElement('div');
+    msgElem.classList.add('user-msg');
+    msgElem.innerText = textarea.value;
+    textarea.value = '';
+    board.appendChild(msgElem);
+
+    // respond
+    responseHandler();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById("user-input");
+    const submitBtn = document.getElementById('action-button');
 
     // Prevent return->new line without shift key
     textarea.addEventListener('keypress', evt => {
         if (!(window.innerWidth <= 720)
             && !evt.shiftKey && evt.key == "Enter") {
             evt.preventDefault();
-            // Do something
+            userInputHandler(textarea);
         }
+    });
+
+    submitBtn.addEventListener('click', evt => {
+        userInputHandler(textarea);
     });
 
     // Resize user input to match line number
