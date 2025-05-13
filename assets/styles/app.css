@@ -146,7 +146,6 @@ textarea:not([cols]) {
 }
 
 .composer:has(#user-input:focus) {
-    background: red;
     bottom: 60px;
 }
 
