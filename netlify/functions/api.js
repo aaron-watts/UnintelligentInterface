@@ -6,5 +6,5 @@ export default async (req, context) => {
     });
     const { data } = await res.json();
 
-    return new Response(JSON.stringiofy(data));
+    return new Response(JSON.stringify(data));
 };
