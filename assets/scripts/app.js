@@ -1,3 +1,24 @@
+let appData = {};
+
+const getData = async () => {
+    const res = await fetch('/.netlify/functions/api');
+
+    const data = await res.json();
+
+    return data;
+};
+
+const setData = async() => {
+    const { adventures } = await getData();
+    appData.allPrompts = adventures;
+    const durations = [...new Set(appData.allPrompts.map(i => i.howMuch))];
+    durations.forEach(duration => {
+        appData[duration] = appData.allPrompts.filter(i => i.howMuch == duration);
+    });
+};
+
+setData();
+
 document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById("user-input");
 
