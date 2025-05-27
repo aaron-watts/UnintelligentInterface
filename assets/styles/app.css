@@ -137,7 +137,7 @@ textarea:not([cols]) {
 
 /* Custom CSS starts here */
 
-.composer {
+#composer {
     position: fixed;
     width: min(48rem, 92%);
     bottom: 30px;
@@ -197,7 +197,7 @@ textarea:not([cols]) {
     }
 }
 
-.ui-feedback {}
+/* .ui-feedback {} */
 
 .user-msg,
 .ui-feedback {

@@ -1,46 +1,77 @@
-let appData = {
-    phase: 0,
-    responses: responses
+const appData = {
+    phase: 0
 };
 
 const getData = async () => {
     const res = await fetch('/.netlify/functions/api');
-
     const data = await res.json();
-
     return data;
 };
 
 const setData = async() => {
     const { adventures } = await getData();
     appData.allPrompts = adventures;
-    const durations = [...new Set(appData.allPrompts.map(i => i.howMuch))];
-    durations.forEach(duration => {
+    appData.durations = [...new Set(appData.allPrompts.map(i => i.howMuch))];
+    appData.durations.forEach(duration => {
         appData[duration] = appData.allPrompts.filter(i => i.howMuch == duration);
+    });
+
+    // add durations set as user suggestions in responses object
+    responses[1].cue = appData.durations.map(i => {
+        return {
+            txt: i,
+            action: function() {
+                const nextPhase = 0;
+                buttonHandler(this, nextPhase);
+            }
+        }
+    });
+};
+setData();
+
+const responseHandler = (nextPhase=appData.phase) => {
+    // set current phase of operations
+    appData.phase=nextPhase;
+
+    const board = document.getElementById('message-board');
+    const composer = document.getElementById('composer');
+    const feedback = document.createElement('div');
+    feedback.classList.add('ui-feedback');
+    feedback.innerText = responses[appData.phase].msg;
+    board.appendChild(feedback);
+
+    // generate suggestions
+    responses[appData.phase].cue.forEach(q => {
+        const btn = document.createElement('button');
+        btn.classList.add('suggestion');
+        btn.innerText = q.txt;
+        btn.addEventListener('click', q.action)
+        composer.prepend(btn);
     });
 };
 
-setData();
-
-const responseHandler = () => {
-    const msgElem = document.getElementById('message-board');
-    const feedback = document.createElement('div');
-    feedback.classList.add('ui-feedback');
-    feedback.innerText = appData.responses[appData.phase].msg;
-    msgElem.appendChild(feedback);
-};
-
-const userInputHandler = textarea => {
+const userInputHandler = (input, nextPhase=appData.phase) => {
     const board = document.getElementById('message-board');
     const msgElem = document.createElement('div');
     msgElem.classList.add('user-msg');
-    msgElem.innerText = textarea.value;
-    textarea.value = '';
+    msgElem.innerText = input;
     board.appendChild(msgElem);
 
-    // respond
-    responseHandler();
+    responseHandler(nextPhase);
 };
+
+const buttonHandler = (btn, nextPhase=appData.phase) => {
+    const btns = document.querySelectorAll('.suggestion');
+    btns.forEach(b => b.remove());
+
+    userInputHandler(btn.innerText, nextPhase);
+};
+
+const textareaHandler = textarea => {
+    userInputHandler(textarea.value);
+
+    textarea.value = '';
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById("user-input");
@@ -51,12 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!(window.innerWidth <= 720)
             && !evt.shiftKey && evt.key == "Enter") {
             evt.preventDefault();
-            userInputHandler(textarea);
+            textareaHandler(textarea);
         }
     });
 
     submitBtn.addEventListener('click', evt => {
-        userInputHandler(textarea);
+        textareaHandler(textarea);
     });
 
     // Resize user input to match line number
