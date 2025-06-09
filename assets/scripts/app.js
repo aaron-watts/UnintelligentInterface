@@ -21,7 +21,7 @@ const setData = async() => {
         return {
             txt: i,
             action: function() {
-                const nextPhase = 0;
+                const nextPhase = 2;
                 buttonHandler(this, nextPhase);
             }
         }

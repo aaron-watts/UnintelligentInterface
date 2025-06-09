@@ -6,12 +6,31 @@ const responses = {
                 txt: 'Yes please!',
                 action: function(){
                     const nextPhase = 1;
-                    buttonHandler(this, 1);
+                    buttonHandler(this, nextPhase);
                 }
             }
         ]
     },
     1: {
         msg: 'How much time would you like to spend on it?'
+    },
+    2: {
+        msg: `Maybe you could ${function(){return 'Random Example';}()}`,
+        cue: [
+            {
+                txt: 'Think of something else',
+                action: function(){
+                    const nextPhase = 2;
+                    buttonHandler(this, nextPhase);
+                }
+            },
+            {
+                txt: 'Change the timeframe',
+                action: function(){
+                    const nextPhase = 1;
+                    buttonHandler(this, nextPhase);
+                }
+            }
+        ]
     }
 };
