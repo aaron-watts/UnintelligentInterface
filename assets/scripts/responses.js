@@ -15,7 +15,7 @@ const responses = {
         msg: 'How much time would you like to spend on it?'
     },
     2: {
-        msg: `Maybe you could ${function(){return 'Random Example';}()}`,
+        msg: "I'm feeling a bit tired...",
         cue: [
             {
                 txt: 'Think of something else',

@@ -1,5 +1,6 @@
 const appData = {
-    phase: 0
+    phase: 0,
+    duration: ''
 };
 
 const getData = async () => {
@@ -13,21 +14,46 @@ const setData = async() => {
     appData.allPrompts = adventures;
     appData.durations = [...new Set(appData.allPrompts.map(i => i.howMuch))];
     appData.durations.forEach(duration => {
-        appData[duration] = appData.allPrompts.filter(i => i.howMuch == duration);
+        appData[duration] = appData.allPrompts.filter(i => i.howMuch == duration).map(i => i.what);
+        appData[`${duration}Origin`] = appData[duration].slice();
     });
 
     // add durations set as user suggestions in responses object
-    responses[1].cue = appData.durations.map(i => {
+    responses[1].cue = appData.durations.map(duration => {
         return {
-            txt: i,
+            txt: duration,
             action: function() {
+                // set phase 2 msg
+                appData.duration = duration;
+                suggestionHandler()
+
                 const nextPhase = 2;
                 buttonHandler(this, nextPhase);
             }
         }
     });
+
+    responses[2].cue[0].action = function() {
+        // set phase 2 msg
+        suggestionHandler();
+
+        const nextPhase = 2;
+        buttonHandler(this, nextPhase);
+    }
 };
 setData();
+
+const suggestionHandler = () => {
+    responses[2].msg = `Maybe you could ${function(){
+        let arr = appData[appData.duration];
+        const randomIndex = Math.floor(Math.random() * arr.length);
+        const suggest = arr.splice(randomIndex, 1);
+        if (!arr.length) {
+            appData[appData.duration] = appData[`${appData.duration}Origin`].slice();
+        }
+        return suggest;
+    }()}`;
+}
 
 const responseHandler = (nextPhase=appData.phase) => {
     // set current phase of operations
